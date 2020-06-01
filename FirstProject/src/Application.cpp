@@ -1,6 +1,6 @@
 #include <GLFW/glfw3.h>
 
-void PerformOperation(GLfloat& number, bool& addNumber);
+void Move(GLfloat& number, bool& addNumber);
 void AddNumber(GLfloat& number);
 void SubNumber(GLfloat& number);
 
@@ -23,13 +23,13 @@ int main(void)
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
 
-	GLfloat a[2] = { -0.5f, -0.5f };
-	GLfloat b[2] = { 0, 0.5f };
-	GLfloat c[2] = { 0.5f, -0.5f };
+	GLfloat aVertice[2] = { -0.5f, -0.5f };
+	GLfloat bVertice[2] = { 0, 0.5f };
+	GLfloat cVertice[2] = { 0.5f, -0.5f };
 
-	bool addA[2] = { true, true };
-	bool addB[2] = { true, true };
-	bool addC[2] = { true, true };
+	bool moveAPositive[2] = { true, true };
+	bool moveBPositive[2] = { true, true };
+	bool moveCPositive[2] = { true, true };
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
@@ -38,16 +38,16 @@ int main(void)
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		glBegin(GL_TRIANGLES);
-		glVertex2f(a[0], a[1]);
-		glVertex2f(b[0], b[1]);
-		glVertex2f(c[0], c[1]);
+		glVertex2f(aVertice[0], aVertice[1]);
+		glVertex2f(bVertice[0], bVertice[1]);
+		glVertex2f(cVertice[0], cVertice[1]);
 
-		PerformOperation(a[0], addA[0]);
-		PerformOperation(a[1], addA[1]);
-		PerformOperation(b[0], addB[0]);
-		PerformOperation(b[1], addB[1]);
-		PerformOperation(c[0], addC[0]);
-		PerformOperation(c[1], addC[1]);
+		Move(aVertice[0], moveAPositive[0]);
+		Move(aVertice[1], moveAPositive[1]);
+		Move(bVertice[0], moveBPositive[0]);
+		Move(bVertice[1], moveBPositive[1]);
+		Move(cVertice[0], moveCPositive[0]);
+		Move(cVertice[1], moveCPositive[1]);
 
 		glEnd();
 
@@ -62,34 +62,24 @@ int main(void)
 	return 0;
 }
 
-void PerformOperation(GLfloat& number, bool &addNumber)
+void Move(GLfloat& coordinate, bool &increaseCoordinate)
 {
-	if (number >= 1.0f)
+	if (coordinate >= 1.0f)
 	{
-		addNumber = false;
+		increaseCoordinate = false;
 	}
 
-	if (number <= -1.0f)
+	if (coordinate <= -1.0f)
 	{
-		addNumber = true;
+		increaseCoordinate = true;
 	}
 
-	if (addNumber)
+	if (increaseCoordinate)
 	{
-		AddNumber(number);
+		coordinate += 0.01f;
 	}
 	else
 	{
-		SubNumber(number);
+		coordinate -= 0.01f;
 	}
-}
-
-void AddNumber(GLfloat &number)
-{
-	number += 0.01f;
-}
-
-void SubNumber(GLfloat& number)
-{
-	number -= 0.01f;
 }
